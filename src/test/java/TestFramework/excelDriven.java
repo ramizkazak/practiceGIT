@@ -102,7 +102,7 @@ public class excelDriven extends TestBase{
 			given()
 				.queryParam("ID", id)
 			.when()
-				.get("/Library/GetBook.php").peek();		
+				.get("/Library/GetBook.php");		
 
 		JsonPath jp = ReUsableMethods.rawToJson(response);
 		String message =jp.get("msg").toString();
