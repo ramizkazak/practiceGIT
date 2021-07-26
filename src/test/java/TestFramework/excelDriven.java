@@ -1,12 +1,14 @@
 package TestFramework;
 
+import org.testng.annotations.Test;
+import org.testng.AssertJUnit;
 import static io.restassured.RestAssured.given;
-import static org.testng.Assert.assertEquals;
+//import static org.testng.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.testng.annotations.Test;
+
 
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
@@ -90,11 +92,11 @@ public class excelDriven extends TestBase {
 		String message = jp.get("msg").toString();
 
 		if (message.contains("does not exists!")) {
-			assertEquals(response.statusCode(), 404);
+			AssertJUnit.assertEquals(response.statusCode(), 404);
 			System.err.println(
 					"The book id you enter did not match in our inventory list!!!\n Please recheck id or try with new one!!!");
 		} else
-			assertEquals(response.statusCode(), 200);
+			AssertJUnit.assertEquals(response.statusCode(), 200);
 
 	}
 }
