@@ -16,16 +16,15 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class dataDriven {
-	
+
 	XSSFWorkbook workbook;
 	XSSFSheet sheet;
 	XSSFRow row;
-	XSSFCell cell;	
+	XSSFCell cell;
 	FileInputStream fileInputStream;
 	FileOutputStream fileOutputStream;
 
-		 static String path="demodata.xlsx";
-	
+	static String path = "demodata.xlsx";
 
 	// Identify TestCases column by scanning the entire 1st row
 	// Ones column is identified then scan entire testcase column to identify
@@ -36,11 +35,10 @@ public class dataDriven {
 	public ArrayList<String> getData(String testcaseName, String sheetName) {
 
 		ArrayList<String> strList = new ArrayList<>();
-		
+
 		try {
 			// FileInputStream argument
-			
-	
+
 			fileInputStream = new FileInputStream(path);
 			XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
 			int sheets = workbook.getNumberOfSheets();
@@ -76,9 +74,11 @@ public class dataDriven {
 							Iterator<Cell> cv = r.cellIterator();
 							while (cv.hasNext()) {
 								Cell c = cv.next();
-								if (c.getCellType() == CellType.STRING)	strList.add(c.getStringCellValue());
+								if (c.getCellType() == CellType.STRING)
+									strList.add(c.getStringCellValue());
 
-								else strList.add(NumberToTextConverter.toText(c.getNumericCellValue()));
+								else
+									strList.add(NumberToTextConverter.toText(c.getNumericCellValue()));
 							}
 						}
 					}
@@ -86,46 +86,48 @@ public class dataDriven {
 				}
 
 			}
-			
-			    workbook.close();
-		        fileInputStream.close();
-	
+
+			workbook.close();
+			fileInputStream.close();
+
 		} catch (IOException e) {
 			System.out.println(e);
 		}
 		return strList;
 
 	}
-	
+
 	public void setData(String testCaseName, String sheetName, String id) {
-		
+
 		try {
-			
-			fileInputStream=new FileInputStream(path);		
-			workbook=new XSSFWorkbook(fileInputStream);
-			sheet=workbook.getSheet(sheetName);		
-		
-			for (int i=0; i<=sheet.getLastRowNum(); i++) {
-				
-				XSSFRow currentRow =sheet.getRow(i);
-				if(currentRow.getCell(0).toString().equalsIgnoreCase(testCaseName)) {
-					if(currentRow.getCell(5)==null) {
-					currentRow.createCell(5);
-					}if(currentRow.getCell(6)==null) {	currentRow.createCell(6);	
+
+			fileInputStream = new FileInputStream(path);
+			workbook = new XSSFWorkbook(fileInputStream);
+			sheet = workbook.getSheet(sheetName);
+
+			for (int i = 0; i <= sheet.getLastRowNum(); i++) {
+
+				XSSFRow currentRow = sheet.getRow(i);
+				if (currentRow.getCell(0).toString().equalsIgnoreCase(testCaseName)) {
+					if (currentRow.getCell(5) == null) {
+						currentRow.createCell(5);
+					}
+					if (currentRow.getCell(6) == null) {
+						currentRow.createCell(6);
 					}
 					currentRow.getCell(5).setCellValue(id);
 					currentRow.getCell(6).setCellValue("PASS!!!");
-				}				
-		}
-			 fileOutputStream = new FileOutputStream(path);
-		        workbook.write(fileOutputStream);
+				}
+			}
+			fileOutputStream = new FileOutputStream(path);
+			workbook.write(fileOutputStream);
 
-		        workbook.close();
-		        fileInputStream.close();
-		        fileOutputStream.close();
-		
+			workbook.close();
+			fileInputStream.close();
+			fileOutputStream.close();
+
 		} catch (IOException e) {
 			System.out.println(e);
-		}		
+		}
 	}
 }
